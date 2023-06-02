@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { fade, fly, slide } from "svelte/transition";
+  import { quintOut } from "svelte/easing";
+
   $: doing = [];
   $: done = [];
 
@@ -38,7 +41,10 @@
     <div class="todo-container">
       DOING
       {#each doing as task}
-        <div class="task-container">
+        <div
+          transition:slide={{ delay: 250, duration: 300, axis: "y" }}
+          class="task-container"
+        >
           <p>{task}</p>
           <button class="task-cta" on:click={() => onComplete(task)}>✔</button>
           <button class="task-cta" on:click={() => onRemove(task)}>✖</button>
@@ -48,7 +54,16 @@
     <div class="todo-container">
       DONE
       {#each done as task}
-        <p>{task}</p>
+        <p
+          transition:fly={{
+            delay: 250,
+            duration: 500,
+            x: -200,
+            easing: quintOut,
+          }}
+        >
+          {task}
+        </p>
       {/each}
     </div>
   </div>
